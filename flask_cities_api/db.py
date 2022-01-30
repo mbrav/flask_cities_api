@@ -1,54 +1,46 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 
-import click
-from flask import current_app
-from flask import g
-from flask.cli import with_appcontext
+from . import app
 
 
-def get_db():
-    """Connect to the application's configured database. The connection
-    is unique for each request and will be reused if this is called
-    again.
-    """
-    if "db" not in g:
-        g.db = sqlite3.connect(
-            current_app.config["DATABASE"], detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
+class Region(db.Model):
+    """Region database model"""
 
-    return g.db
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
 
+    def get(self, _id: int):
+        ob = Region.json(Region.query.filter_by(id=_id).first())
+        db.session.add(new_object)
+        db.session.commit()
 
-def close_db(e=None):
-    """If this request connected to the database, close the
-    connection.
-    """
-    db = g.pop("db", None)
+    def __init__(self, name: str):
+        self.name = name
 
-    if db is not None:
-        db.close()
+    def __repr__(self):
+        return f'<region {self.name}>'
 
 
-def init_db():
-    """Clear existing data and create new tables."""
-    db = get_db()
+class City(db.Model):
+    """City database model"""
 
-    with current_app.open_resource("schema.sql") as f:
-        db.executescript(f.read().decode("utf8"))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
 
+    region_id = db.Column(db.Integer,
+                          db.ForeignKey('region.id'),
+                          nullable=False)
+    region = db.relationship('Region',
+                             backref=db.backref('cities', lazy=True))
 
-@click.command("init-db")
-@with_appcontext
-def init_db_command():
-    """Clear existing data and create new tables."""
-    init_db()
-    click.echo("Initialized the database.")
+    def get(self, _id: int):
+        ob = City.json(City.query.filter_by(id=_id).first())
+        db.session.add(new_object)
+        db.session.commit()
 
+    def __init__(self, name: str, region_id: int = None):
+        self.name = name
+        self.region_id = region_id
 
-def init_app(app):
-    """Register database functions with the Flask app. This is called by
-    the application factory.
-    """
-    app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
+    def __repr__(self):
+        return f'<city {self.name}>'
