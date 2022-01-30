@@ -8,9 +8,12 @@ license = "GNU"
 [tool.poetry.dependencies]
 python = "3.8"
 Flask = "^2.0.2"
-pytest = "^6.2.5"
+Flask-SQLAlchemy = "^2.5.1"
+flask-marshmallow = "^0.14.0"
+marshmallow-sqlalchemy = "^0.27.0"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
