@@ -1,0 +1,6 @@
+include LICENSE.rst
+include flask_cities_api/schema.sql
+graft flask_cities_api/static
+graft flask_cities_api/templates
+graft tests
+global-exclude *.pyc
