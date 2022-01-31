@@ -26,6 +26,8 @@ class City(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
+    population = db.Column(db.Integer)
+    year_founded = db.Column(db.Integer)
 
     region_id = db.Column(db.Integer,
                           db.ForeignKey('region.id'),

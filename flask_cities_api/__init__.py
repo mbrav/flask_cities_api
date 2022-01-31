@@ -21,7 +21,9 @@ def create_app(config_name):
 
     @app.before_first_request
     def create_table():
+        from .scraper import data_file as cities_rus
         db.create_all()
+        print('Loading', len(cities_rus), 'cities into database')
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')

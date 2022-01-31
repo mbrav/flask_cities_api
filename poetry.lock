@@ -58,6 +58,17 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-autodoc"
+version = "0.1.2"
+description = "Documentation generator for flask"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Flask = "*"
+
+[[package]]
 name = "flask-marshmallow"
 version = "0.14.0"
 description = "Flask + marshmallow for beautiful APIs"
@@ -295,7 +306,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8"
-content-hash = "1f83ab2eaf035fb612e983c256ae1a43c4e2d7398b2be757fbc9fbb2b0484910"
+content-hash = "631873c56e152a9ac9154d0a91425dfd3713d88f6cf4eda9d2b5384f47aa1b26"
 
 [metadata.files]
 atomicwrites = [
@@ -317,6 +328,9 @@ colorama = [
 flask = [
     {file = "Flask-2.0.2-py3-none-any.whl", hash = "sha256:cb90f62f1d8e4dc4621f52106613488b5ba826b2e1e10a33eac92f723093ab6a"},
     {file = "Flask-2.0.2.tar.gz", hash = "sha256:7b2fb8e934ddd50731893bdcdb00fc8c0315916f9fcd50d22c7cc1a95ab634e2"},
+]
+flask-autodoc = [
+    {file = "Flask-Autodoc-0.1.2.tar.gz", hash = "sha256:364468726b8a4579959685d696a078ff59f589ab3963f537427a8400dcddf403"},
 ]
 flask-marshmallow = [
     {file = "flask-marshmallow-0.14.0.tar.gz", hash = "sha256:bd01a6372cbe50e36f205cfff0fc5dab0b7b662c4c8b2c4fc06a3151b2950950"},

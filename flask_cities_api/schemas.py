@@ -12,7 +12,7 @@ class CitySchema(ma.Schema):
     """City schema"""
 
     class Meta:
-        fields = ('id', 'name', 'region_id')
+        fields = ('id', 'name', 'region_id', 'population', 'year_founded')
 
 
 city_schema = CitySchema()
