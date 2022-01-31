@@ -16,3 +16,4 @@ build/
 .vscode
 tests/data.sql
 *.db
+poetry.lock
