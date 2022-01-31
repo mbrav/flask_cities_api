@@ -1,10 +1,10 @@
 
-from flask import Blueprint, Response, current_app, jsonify, request
+from flask import Blueprint, Response, current_app, jsonify, request, url_for
 
 from .. import db
 from ..models import City, Region
-from ..serializers import (
-    cities_serializer, city_serializer, region_serializer, regions_serializer)
+from ..serializers import (cities_serializer, city_serializer,
+                           region_serializer, regions_serializer)
 
 api = Blueprint('api', __name__)
 
@@ -23,23 +23,18 @@ def cities_list():
         objs = pagination.items
         prev = None
         if pagination.has_prev:
-            prev = url_for('api.cities_list', page=cities-1)
+            prev = url_for('api.cities_list', page=page-1)
         next = None
         if pagination.has_next:
-            next = url_for('api.cities_list', page=cities+1)
+            next = url_for('api.cities_list', page=page+1)
 
-        print(objs[0])
         return jsonify({
-            'prev': prev,
-            'next': next,
             'count': pagination.total,
-            'posts': [obj.to_json() for obj in objs],
+            'next': next,
+            'posts': [city_serializer.dump(obj)
+                      for obj in objs],
+            'prev': prev,
         })
-
-        all_cities = City.query.all()
-        result = cities_serializer.dump(all_cities)
-
-        return jsonify(result)
 
     if request.method == 'POST':
         name = request.json['name']
@@ -65,10 +60,27 @@ def regions_list():
     """Regions route"""
 
     if request.method == 'GET':
-        all_regions = Region.query.all()
-        result = regions_serializer.dump(all_regions)
+        page = request.args.get('page', 1, type=int)
+        pagination = Region.query.paginate(
+            page,
+            per_page=current_app.config['FLASK_CITIES_PAGINATION'],
+            error_out=False)
 
-        return jsonify(result)
+        objs = pagination.items
+        prev = None
+        if pagination.has_prev:
+            prev = url_for('api.regions_list', page=page-1)
+        next = None
+        if pagination.has_next:
+            next = url_for('api.regions_list', page=page+1)
+
+        return jsonify({
+            'count': pagination.total,
+            'next': next,
+            'posts': [region_serializer.dump(obj)
+                      for obj in objs],
+            'prev': prev,
+        })
 
     if request.method == 'POST':
         name = request.json['name']
