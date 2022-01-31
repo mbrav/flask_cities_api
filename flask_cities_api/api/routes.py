@@ -1,11 +1,14 @@
-from flask import Response, jsonify, request
 
-from . import app
-from .models import City, Region
-from .schemas import cities_schema, city_schema, region_schema, regions_schema
+from flask import Blueprint, Response, jsonify, request
+
+from .. import db
+from ..models import City, Region
+from ..schemas import cities_schema, city_schema, region_schema, regions_schema
+
+api = Blueprint('api', __name__)
 
 
-@app.route('/cities', methods=['GET', 'POST'])
+@api.route('/cities', methods=['GET', 'POST'])
 def cities():
     """Cities route"""
 
@@ -26,7 +29,7 @@ def cities():
         return city_schema.jsonify(new_object)
 
 
-@app.route('/regions', methods=['GET', 'POST'])
+@api.route('/regions', methods=['GET', 'POST'])
 def regions():
     """Regions route"""
 
@@ -44,7 +47,3 @@ def regions():
         db.session.add(new_object)
         db.session.commit()
         return region_schema.jsonify(new_object)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 
-from . import app
+from . import db
 
 
 class Region(db.Model):
@@ -30,8 +30,6 @@ class City(db.Model):
     region_id = db.Column(db.Integer,
                           db.ForeignKey('region.id'),
                           nullable=False)
-    region = db.relationship('Region',
-                             backref=db.backref('cities', lazy=True))
 
     def get(self, _id: int):
         ob = City.json(City.query.filter_by(id=_id).first())
