@@ -58,16 +58,19 @@ def cities_detail(id):
         result = city_serializer.dump(obj)
         return jsonify(result)
 
-    # if request.method == 'PUT':
-    #     obj = City.query.get_or_404(id)
-    #     result = city_serializer.dump(obj)
-    #     return jsonify(result)
+    if request.method == 'PUT':
+        obj.name = request.json['name']
+        obj.region_id = request.json['region_id']
+        obj.population = request.json['population']
+        obj.year_founded = request.json['year_founded']
+
+        result = city_serializer.dump(obj)
+        return jsonify(result)
 
     if request.method == 'DELETE':
         db.session.delete(obj)
         db.session.commit()
-        message = jsonify(message="City deleted")
-        return make_response(message, 204)
+        return {"message": "City deleted"}, 204
 
 
 @api.route('/regions', methods=['GET', 'POST'])
@@ -111,7 +114,18 @@ def regions_list():
 def regions_detail(id):
     """Region detail view"""
 
+    obj = Region.query.get_or_404(id)
+
     if request.method == 'GET':
-        obj = Region.query.get_or_404(id)
         result = region_serializer.dump(obj)
         return jsonify(result)
+
+    # if request.method == 'PUT':
+    #     obj = City.query.get_or_404(id)
+    #     result = region_serializer.dump(obj)
+    #     return jsonify(result)
+
+    if request.method == 'DELETE':
+        db.session.delete(obj)
+        db.session.commit()
+        return {"message": "Region deleted"}, 204

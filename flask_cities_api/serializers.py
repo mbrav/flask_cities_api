@@ -1,18 +1,21 @@
-from . import ma
+from marshmallow import Schema, fields
 
 
-class RegionSerializer(ma.Schema):
-    """Region schema"""
-
-    class Meta:
-        fields = ('id', 'name')
-
-
-class CitySerializer(ma.Schema):
+class CitySerializer(Schema):
     """City schema"""
 
     class Meta:
         fields = ('id', 'name', 'region_id', 'population', 'year_founded')
+
+
+class RegionSerializer(Schema):
+    """Region schema"""
+
+    cities = fields.List(fields.Nested(
+        CitySerializer(exclude=('id', 'region_id',))))
+
+    class Meta:
+        fields = ('id', 'name', 'cities')
 
 
 city_serializer = CitySerializer()

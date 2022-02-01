@@ -6,8 +6,12 @@ from . import db
 class Region(db.Model):
     """Region database model"""
 
+    __tablename__ = 'regions'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
+
+    cities = db.relationship("City", backref="region", lazy='dynamic')
 
     def get(self, _id: int):
         ob = Region.json(Region.query.filter_by(id=_id).first())
@@ -24,14 +28,14 @@ class Region(db.Model):
 class City(db.Model):
     """City database model"""
 
+    __tablename__ = 'cities'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     population = db.Column(db.Integer, nullable=True)
     year_founded = db.Column(db.Integer, nullable=True)
 
-    region_id = db.Column(db.Integer,
-                          db.ForeignKey('region.id'),
-                          nullable=True)
+    region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
 
     def get(self, _id: int):
         ob = City.json(City.query.filter_by(id=_id).first())

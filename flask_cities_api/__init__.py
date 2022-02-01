@@ -1,12 +1,9 @@
 from config import config
 from flask import Flask
-from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import HTTPException
 
 db = SQLAlchemy()
-ma = Marshmallow()
-
 
 def create_app(config_name):
 
@@ -16,7 +13,6 @@ def create_app(config_name):
     config['default'].init_app(app)
 
     db.init_app(app)
-    ma = Marshmallow(app)
 
     @app.errorhandler(HTTPException)
     def handle_exception(e):
@@ -40,7 +36,7 @@ def create_app(config_name):
         from .scraper import data_file as cities_rus
 
         db.create_all()
-        load_db_data(cities_rus)
+        # load_db_data(cities_rus)
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
