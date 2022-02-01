@@ -36,10 +36,11 @@ def create_app(config_name):
     def create_table():
         """Create table on first request and load test data with rus cities"""
 
+        from .models import load_db_data
         from .scraper import data_file as cities_rus
 
         db.create_all()
-        print('Loading', len(cities_rus), 'cities into database')
+        load_db_data(cities_rus)
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
