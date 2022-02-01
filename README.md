@@ -27,9 +27,8 @@ Install flask_cities_api::
 
 ## Run
 
-    $ export FLASK_APP=flask_cities_api
-    $ export FLASK_ENV=development
-    $ flask init-db
-    $ flask run
+```bash
+$ python run.py
+```
 
 Open http://127.0.0.1:5000 in a browser.

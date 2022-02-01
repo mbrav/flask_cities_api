@@ -37,9 +37,11 @@ def create_app(config_name):
         from .scraper import data_file as cities_rus
 
         db.create_all()
-        # load_db_data(cities_rus)
+        load_db_data(cities_rus)
 
     from .api import api as api_blueprint
+    from .api import auth as auth_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app

@@ -1,5 +1,5 @@
 
-from flask import (Blueprint, Response, current_app, jsonify, make_response,
+from flask import (Blueprint, Response, current_app, jsonify,
                    request, url_for)
 
 from .. import db
