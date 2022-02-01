@@ -34,7 +34,7 @@ def scrape():
             'city': row[2].get_text(),
             'state': row[3].get_text(),
             'region': row[4].get_text(),
-            'population': re.findall(num_reg, row[5].get_text())[0],
+            'population': row[5].get_text().replace(' ', ''),
             'year-founded': re.findall(num_reg, row[6].get_text())[0],
             # 'year-city': re.findall(num_reg, row[7].get_text())[0],
         }
