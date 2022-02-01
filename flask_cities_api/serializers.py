@@ -5,6 +5,7 @@ class CitySerializer(Schema):
     """City schema"""
 
     class Meta:
+        ordered = True
         fields = ('id', 'name', 'region_id', 'population', 'year_founded')
 
 
@@ -15,6 +16,7 @@ class RegionSerializer(Schema):
         CitySerializer(exclude=('id', 'region_id',))))
 
     class Meta:
+        ordered = True
         fields = ('id', 'name', 'cities')
 
 

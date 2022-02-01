@@ -11,6 +11,7 @@ class Config:
     SQLALCHEMY_RECORD_QUERIES = True
     FLASK_CITIES_PAGINATION = 50
     FLASK_CITIES_SLOW_DB_QUERY_TIME = 0.5
+    JSON_SORT_KEYS = False
 
     @staticmethod
     def init_app(app):
