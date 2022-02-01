@@ -1,5 +1,6 @@
 
-from flask import Blueprint, Response, current_app, jsonify, request, url_for
+from flask import (Blueprint, Response, current_app, jsonify, make_response,
+                   request, url_for)
 
 from .. import db
 from ..models import City, Region
@@ -49,10 +50,24 @@ def cities_list():
 
 @api.route('/cities/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def cities_detail(id):
+    """Cities detail view"""
+
+    obj = City.query.get_or_404(id)
+
     if request.method == 'GET':
-        obj = City.query.get_or_404(id)
         result = city_serializer.dump(obj)
         return jsonify(result)
+
+    # if request.method == 'PUT':
+    #     obj = City.query.get_or_404(id)
+    #     result = city_serializer.dump(obj)
+    #     return jsonify(result)
+
+    if request.method == 'DELETE':
+        db.session.delete(obj)
+        db.session.commit()
+        message = jsonify(message="City deleted")
+        return make_response(message, 204)
 
 
 @api.route('/regions', methods=['GET', 'POST'])
@@ -94,6 +109,8 @@ def regions_list():
 
 @api.route('/regions/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def regions_detail(id):
+    """Region detail view"""
+
     if request.method == 'GET':
         obj = Region.query.get_or_404(id)
         result = region_serializer.dump(obj)

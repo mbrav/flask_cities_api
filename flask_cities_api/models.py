@@ -7,7 +7,7 @@ class Region(db.Model):
     """Region database model"""
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(100))
 
     def get(self, _id: int):
         ob = Region.json(Region.query.filter_by(id=_id).first())
